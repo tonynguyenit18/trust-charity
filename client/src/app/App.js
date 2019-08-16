@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import EleactionContract from "../contracts/Election.json";
+import DonationContract from "../contracts/Donation.json";
 import getWeb3 from "../utils/getWeb3";
 import truffleContract from "truffle-contract"
 
@@ -18,7 +18,7 @@ class App extends Component {
       voting: false,
       web3: null,
       contracts: {
-        election: null
+        donation: null
       }
 
     }
@@ -33,7 +33,7 @@ class App extends Component {
       const account = await web3.eth.getCoinbase();
 
 
-      const Contract = truffleContract(EleactionContract, account);
+      const Contract = truffleContract(DonationContract, account);
 
       Contract.setProvider(web3.currentProvider);
 
@@ -42,7 +42,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, account, contracts: { ...this.state.contracts, election: instance } });
+      this.setState({ web3, account, contracts: { ...this.state.contracts, donation: instance } });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -54,10 +54,10 @@ class App extends Component {
 
   setupAccount = async () => {
     const { contracts } = this.state;
-    console.log(contracts.election)
+    console.log(contracts.donation)
 
-    await contracts.election.downVote(1, { from: this.state.account });
-    const post1 = await contracts.election.posts(1);
+    await contracts.donation.downVote(1, { from: this.state.account });
+    const post1 = await contracts.donation.posts(1);
     console.log(post1)
     // Stores a given value, 5 by default.
 

@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-contract Election {
+contract Donation {
     //Model a Candidate
     struct Post{
         uint id; // uniqe id for each post(comes from external database)
