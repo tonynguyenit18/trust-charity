@@ -3,7 +3,6 @@ const mongo = require("./init") // initialize connection with mondodb
 // define model's schema
 const userSchema = new mongo.Schema(
   {
-    title: String,
     address: String,
     userName: String,
     email: String,
