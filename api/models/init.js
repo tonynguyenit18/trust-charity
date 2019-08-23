@@ -5,7 +5,7 @@ require('dotenv').config()
 mongoose.Promise = global.Promise
 
 // set mongo
-const uri = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_PASSWORD}@trustcharity-f0uck.mongodb.net/test?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_PASSWORD}@trustcharity-f0uck.mongodb.net/TrustCharityDB?retryWrites=true&w=majority`;
 
 mongoose
   .connect(uri, { useNewUrlParser: true })
