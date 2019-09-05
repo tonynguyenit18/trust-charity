@@ -7,7 +7,7 @@ const userSchema = new mongo.Schema(
     userName: String,
     email: String,
     password: String,
-    role: Number,
+    role: { type: Number, default: 0 }, //0:donatee, 1:donator, 2:internal user
   },
   {
     timestamps: true // add updated at and created at timestamps
