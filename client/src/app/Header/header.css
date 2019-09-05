@@ -1,38 +1,32 @@
-.header{
-    width: 100%;
-    height: 100%;
-    position: relative;
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
 }
-.image-background{
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: 1;
-}
-.header-content{
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: 5;
+.header-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
-.btn-in-navbar{
-    background: none;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 15px;
-    outline: none;
-    transition: background-color 500ms ease;
-    margin-right: 15px; 
+.btn-in-navbar {
+  background: none;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  outline: none;
+  transition: background-color 500ms ease;
+  margin-right: 15px;
 }
 
-.btn-in-navbar:focus{
-    outline: none;
+.btn-in-navbar:focus {
+  outline: none;
 }
 
-.btn-in-navbar:hover{
-    background-color: #007bff;
+.btn-in-navbar:hover {
+  background-color: #007bff;
 }

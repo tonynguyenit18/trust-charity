@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import DonationContract from "../contracts/Donation.json";
 import getWeb3 from "../utils/getWeb3";
-import truffleContract from "truffle-contract"
+import truffleContract from "truffle-contract";
 
-import Header from "./Header"
+import Header from "./Header";
+import Projects from "./Projects";
 
-import "../css/app.css"
+import "../css/app.css";
 
 class App extends Component {
   constructor(props) {
@@ -19,9 +20,9 @@ class App extends Component {
       web3: null,
       contracts: {
         donation: null
-      }
-
-    }
+      },
+      projects: null
+    };
   }
 
   componentDidMount = async () => {
@@ -32,21 +33,26 @@ class App extends Component {
       // Use web3 to get the user's accounts.
       const account = await web3.eth.getCoinbase();
 
-
       const Contract = truffleContract(DonationContract, account);
 
       Contract.setProvider(web3.currentProvider);
 
       const instance = await Contract.deployed();
-      console.log(instance.address)
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, account, contracts: { ...this.state.contracts, donation: instance } });
+      this.setState(
+        {
+          web3,
+          account,
+          contracts: { ...this.state.contracts, donation: instance }
+        },
+        this.setupAccount
+      );
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load web3, accounts, or contract. Check console for details.`
       );
       console.error(error);
     }
@@ -54,14 +60,27 @@ class App extends Component {
 
   setupAccount = async () => {
     const { contracts } = this.state;
-    console.log(contracts.donation)
+    console.log(contracts.donation);
+    let postCount = await contracts.donation.postCount();
+    postCount = postCount.toNumber();
+    const projects = [];
+    for (var i = 1; i <= postCount; i++) {
+      const post = await contracts.donation.posts(i);
+      const project = this.getProjectInfo(post);
+      projects.push(project);
+    }
+    console.log(projects);
+    this.setState({ projects });
+  };
 
-    await contracts.donation.downVote(1, { from: this.state.account });
-    const post1 = await contracts.donation.posts(1);
-    console.log(post1)
-    // Stores a given value, 5 by default.
-
-
+  getProjectInfo = post => {
+    console.log(post);
+    const projectId = post.id.toNumber();
+    const upVote = post.upVote.toNumber();
+    const downVote = post.downVote.toNumber();
+    const donationTotalAmount = post.donationTotalAmount.toNumber();
+    const goalAmount = 10;
+    return { projectId, upVote, downVote, donationTotalAmount, goalAmount };
   };
 
   render() {
@@ -71,6 +90,9 @@ class App extends Component {
     return (
       <div className="app container-fluid">
         <Header></Header>
+        {this.state.projects && this.state.projects.length > 0 ? (
+          <Projects projects={this.state.projects}></Projects>
+        ) : null}
       </div>
     );
   }

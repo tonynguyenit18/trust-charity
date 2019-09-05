@@ -1,26 +1,76 @@
 import React from "react";
-import "./header.css"
-import headerImage from "../../images/bg-header.png"
+import "./header.css";
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      headerWithBackground: false
+    };
 
-const Header = () => {
+    this.pageContent = null;
+    this.navBar = null;
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScrollAction);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScrollAction);
+  }
+
+  handleScrollAction = () => {
+    this.pageContent = document.querySelector(".page-content");
+    this.navBar = document.querySelector(".header-content");
+    if (!this.pageContent || !this.navBar) return;
+    if (
+      !this.state.headerWithBackground &&
+      this.pageContent.getBoundingClientRect().top <= this.navBar.offsetHeight
+    ) {
+      this.setState({ headerWithBackground: true });
+    }
+
+    if (
+      this.state.headerWithBackground &&
+      this.pageContent.getBoundingClientRect().top > this.navBar.offsetHeight
+    ) {
+      this.setState({ headerWithBackground: false });
+    }
+  };
+
+  render() {
     return (
-        <div className="header">
-            <div className="image-background">
-                <img style={{ width: "100%", height: "auto" }} src={headerImage} alt="Header Image" />
+      <div className="header">
+        <div
+          className="header-content"
+          style={
+            this.state.headerWithBackground
+              ? { backgroundColor: "#000000" }
+              : {}
+          }
+        >
+          <nav
+            className="navbar navbar-expand-lg navbar-ligth justify-content-between"
+            style={{ backgroundColor: "#ffffff00" }}
+          >
+            <a
+              className="navbar-brand"
+              style={{ color: "#14BDEB", fontWeight: "bold" }}
+              href="#"
+            >
+              Trust Charity
+            </a>
+            <div className="d-flex flex-row-reverse">
+              <button className="btn-in-navbar">Register</button>
+              <button className="btn-in-navbar">Log in</button>
+              <button className="btn-in-navbar">Projects</button>
+              <button className="btn-in-navbar">Petrons</button>
             </div>
-            <div className="header-content">
-                <nav className="navbar navbar-expand-lg navbar-ligth justify-content-between" style={{ backgroundColor: "#ffffff00" }}>
-                    <a className="navbar-brand" style={{ color: "#E34902", fontWeight: "bold" }} href="#">Trust Charity</a>
-                    <div className="d-flex flex-row-reverse">
-                        <button className="btn-in-navbar">Register</button>
-                        <button className="btn-in-navbar">Log in</button>
-                        <button className="btn-in-navbar">Projects</button>
-                        <button className="btn-in-navbar">Petrons</button>
-                    </div>
-                </nav>
-            </div>
-        </div >
+          </nav>
+        </div>
+      </div>
     );
+  }
 }
 
-export default Header
+export default Header;
