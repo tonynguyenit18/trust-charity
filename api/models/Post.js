@@ -5,7 +5,7 @@ const postSchema = new mongo.Schema(
   {
     title: String,
     imageUrl: String,
-    status: Number,
+    status: { type: Number, default: 0 }, // 0:pending 1:processing 2:rejected 3:success
     description: String,
     user_id: String,
     location: String,
