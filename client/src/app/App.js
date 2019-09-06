@@ -74,12 +74,11 @@ class App extends Component {
   };
 
   getProjectInfo = post => {
-    console.log(post);
     const projectId = post.id.toNumber();
     const upVote = post.upVote.toNumber();
     const downVote = post.downVote.toNumber();
     const donationTotalAmount = post.donationTotalAmount.toNumber();
-    const goalAmount = 10;
+    const goalAmount = this.state.web3.utils.fromWei(post.goalAmount, "ether");
     return { projectId, upVote, downVote, donationTotalAmount, goalAmount };
   };
 
