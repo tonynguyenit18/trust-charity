@@ -26,12 +26,12 @@ class Charity extends React.Component {
 
             <div className='row'>
               <div className='col-6'>
-                <label for="post_title" className='text-light'>Title</label>
+                <label htmlFor="post_title" className='text-light'>Title</label>
                 <input type="text" className="form-control" id="post_title" name="title" required />
               </div>
 
               <div className='col-6'>
-                <label for="post_location" className='text-light'>Location</label>
+                <label htmlFor="post_location" className='text-light'>Location</label>
                 <input type="text" className="form-control" id="post_location" name="location" required />
               </div>
 
@@ -39,7 +39,7 @@ class Charity extends React.Component {
 
             <div className='row'>
               <div className='col-12'>
-                <label for="post_description" className='text-light'>Description</label>
+                <label htmlFor="post_description" className='text-light'>Description</label>
                 <textarea className="form-control" rows="4" id="post_description"></textarea>
               </div>
             </div>
