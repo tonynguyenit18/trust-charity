@@ -5,7 +5,7 @@ import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
 import { faFrown } from "@fortawesome/free-regular-svg-icons";
 import "./projects.css";
 
-class Project extends React.Component {
+class ProjectDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -18,10 +18,7 @@ class Project extends React.Component {
   render() {
     const { project } = this.props;
     return (
-      <div
-        className="col-md-3 project-container__item"
-        onClick={this.handleProjectClick}
-      >
+      <div className="w-100" onClick={this.handleProjectClick}>
         <img style={{ width: "100%" }} src={headerImage}></img>
         <div className="row mt-2">
           <div className="col-md-6">
@@ -62,4 +59,4 @@ class Project extends React.Component {
   }
 }
 
-export default Project;
+export default ProjectDetail;

@@ -38,6 +38,15 @@ class Header extends React.Component {
     }
   };
 
+  moveToSection = section => event => {
+    const projectSection = document.querySelector(`.${section}`);
+    const header = document.querySelector(`.header-content`);
+    if (!projectSection || !header) return;
+    const projectSectionY = projectSection.offsetTop;
+    const headerHeight = header.offsetHeight;
+    window.scrollTo(0, projectSectionY - headerHeight);
+  };
+
   render() {
     return (
       <div className="header">
@@ -63,7 +72,12 @@ class Header extends React.Component {
             <div className="d-flex flex-row-reverse">
               <button className="btn-in-navbar">Register</button>
               <button className="btn-in-navbar">Log in</button>
-              <button className="btn-in-navbar">Projects</button>
+              <button
+                className="btn-in-navbar"
+                onClick={this.moveToSection("page-content")}
+              >
+                Projects
+              </button>
               <button className="btn-in-navbar">Petrons</button>
             </div>
           </nav>
