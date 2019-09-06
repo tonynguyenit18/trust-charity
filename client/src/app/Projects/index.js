@@ -3,12 +3,9 @@ import Project from "./Project";
 import ProjectDetail from "./ProjectDetail";
 import headerImage from "../../images/bg-header.png";
 import "./projects.css";
-<<<<<<< HEAD
 import { Modal, Button } from "react-bootstrap";
 
-=======
 import Charity from "../Charity";
->>>>>>> master
 class Projects extends React.Component {
   constructor(props) {
     super(props);
