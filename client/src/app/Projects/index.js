@@ -2,7 +2,7 @@ import React from "react";
 import Project from "./Project";
 import headerImage from "../../images/bg-header.png";
 import "./projects.css";
-
+import Charity from "../Charity";
 class Projects extends React.Component {
   render() {
     return (
@@ -37,6 +37,7 @@ class Projects extends React.Component {
               <Project key={project.id} project={project}></Project>
             ))}
           </div>
+          <Charity />
         </div>
       </div>
     );
