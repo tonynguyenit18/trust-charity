@@ -13,7 +13,7 @@ server.use(cors())
 server.use(bodyParser.json())
 
 // router
-server.use([require("./routes/users")])
+server.use([require("./routes/users"), require("./routes/posts")])
 
 server.use((error, req, res, next) => {
   res.json({

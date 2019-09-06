@@ -6,6 +6,7 @@ import truffleContract from "truffle-contract";
 import Header from "./Header";
 import Projects from "./Projects";
 
+
 import "../css/app.css";
 
 class App extends Component {
@@ -92,6 +93,7 @@ class App extends Component {
         {this.state.projects && this.state.projects.length > 0 ? (
           <Projects projects={this.state.projects}></Projects>
         ) : null}
+
       </div>
     );
   }
