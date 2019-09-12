@@ -34,7 +34,6 @@ class App extends Component {
 
       // Use web3 to get the user's accounts.
       const account = await web3.eth.getCoinbase();
-
       const Contract = truffleContract(DonationContract, account);
 
       Contract.setProvider(web3.currentProvider);
@@ -62,7 +61,7 @@ class App extends Component {
 
   setupAccount = async () => {
     const { contracts } = this.state;
-    console.log(contracts.donation);
+    console.log(contracts.donation, this.state);
     let postCount = await contracts.donation.postCount();
     postCount = postCount.toNumber();
     const projects = [];
@@ -79,7 +78,7 @@ class App extends Component {
     const projectId = post.id.toNumber();
     const upVote = post.upVote.toNumber();
     const downVote = post.downVote.toNumber();
-    const donationTotalAmount = post.donationTotalAmount.toNumber();
+    const donationTotalAmount = this.state.web3.utils.fromWei(post.donationTotalAmount, "ether");
     const goalAmount = this.state.web3.utils.fromWei(post.goalAmount, "ether");
     return { projectId, upVote, downVote, donationTotalAmount, goalAmount };
   };
@@ -97,7 +96,10 @@ class App extends Component {
       <div className="app container-fluid">
         <Header></Header>
         {this.state.projects && this.state.projects.length > 0 ? (
-          <Projects projects={this.state.projects}></Projects>
+          <Projects projects={this.state.projects}
+            donationContract={this.state.contracts ? this.state.contracts.donation : null}
+            web3={this.state.web3}
+            account={this.state.account}></Projects>
         ) : null}
 
       </div>

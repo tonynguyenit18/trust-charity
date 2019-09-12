@@ -12,6 +12,10 @@
   min-height: 100vh;
 }
 
+.project-container{
+  width: 100%
+}
+
 .project-container__item {
   padding: 10px;
   margin: 10px;
