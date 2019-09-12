@@ -5,6 +5,7 @@ import truffleContract from "truffle-contract";
 
 import Header from "./Header";
 import Projects from "./Projects";
+import Admin from "./Admin";
 
 
 import "../css/app.css";
@@ -84,9 +85,14 @@ class App extends Component {
   };
 
   render() {
+    // admin user is true for the debugging purposes
+    const adminUser = false;
+
+
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+
     return (
       <div className="app container-fluid">
         <Header></Header>
