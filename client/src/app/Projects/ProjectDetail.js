@@ -8,11 +8,12 @@ import "./projects.css";
 class ProjectDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      donateAmount: ""
+    };
   }
-
   handleProjectClick = () => {
-    this.props.handleProjectClick(this.props.project);
+    // this.props.handleProjectClick(this.props.project);
   };
 
   render() {
@@ -54,6 +55,18 @@ class ProjectDetail extends React.Component {
             </p>
           </div>
         </div>
+        <form >
+          <div className="form-group">
+            <label htmlFor="donateAmount">
+              <strong>Donate Amount</strong>
+            </label>
+            <input
+              className="form-control"
+              name="donateAmount"
+              value={project.donateAmount ? project.donateAmount : ""}
+              onChange={this.props.handleDonateAmountChange}></input>
+          </div>
+        </form>
       </div>
     );
   }

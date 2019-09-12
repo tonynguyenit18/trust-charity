@@ -44,7 +44,10 @@ class Header extends React.Component {
     if (!projectSection || !header) return;
     const projectSectionY = projectSection.offsetTop;
     const headerHeight = header.offsetHeight;
-    window.scrollTo(0, projectSectionY - headerHeight);
+    window.scrollTo({
+      top: projectSectionY - headerHeight,
+      behavior: "smooth"
+    });
   };
 
   render() {
