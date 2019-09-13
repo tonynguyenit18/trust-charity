@@ -55,7 +55,7 @@ class Admin extends React.Component {
         <div className="project-container row">
           {this.state.charityPosts && this.state.charityPosts.map((post, index) => {
             return (
-              <div key={`index-${post._id}`} className="col-3 mb-4">
+              <div key={`post-${index}-${post._id}`} className="col-3 mb-4">
                 <a
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
