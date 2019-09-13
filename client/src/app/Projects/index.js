@@ -6,6 +6,7 @@ import "./projects.css";
 import { Modal, Button } from "react-bootstrap";
 
 import Charity from "../Charity";
+import Admin from "../Admin";
 class Projects extends React.Component {
   constructor(props) {
     super(props);
@@ -115,6 +116,7 @@ class Projects extends React.Component {
             ))}
           </div>
           <Charity />
+          <Admin />
         </div>
       </div>
     );
