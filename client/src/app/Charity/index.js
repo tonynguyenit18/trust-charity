@@ -47,11 +47,21 @@ class Charity extends React.Component {
     })
       .then((response) => {
         const message = "Your charity activity has been submitted successfully and in a process. We will get back to you shortly."
-        this.setState({ modalMessage: message, modalShow: true })
+        this.setState({
+          modalMessage: message,
+          modalShow: true, post_title: '',
+          post_location: '',
+          post_description: ''
+        })
       })
       .catch((error) => {
         const message = error.message
-        this.setState({ modalMessage: message, modalShow: true })
+        this.setState({
+          modalMessage: message,
+          modalShow: true, post_title: '',
+          post_location: '',
+          post_description: ''
+        })
       });
   }
 
