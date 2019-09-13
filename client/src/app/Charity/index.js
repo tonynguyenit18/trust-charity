@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios'
-import ConformationModal from './conformationModal'
+import ConfirmationModal from './confirmationModal'
 
 class Charity extends React.Component {
   state = {
@@ -68,7 +68,7 @@ class Charity extends React.Component {
   render() {
     return (
       <div className="container-fluid" style={{ backgroundColor: '#14BDEB' }}>
-        <ConformationModal modalMessage={this.state.modalMessage} modalShow={this.state.modalShow} handleModalClose={this.handleModalClose} />
+        <ConfirmationModal modalMessage={this.state.modalMessage} modalShow={this.state.modalShow} handleModalClose={this.handleModalClose} />
 
         {/* title section */}
         <div className="row justify-content-center">

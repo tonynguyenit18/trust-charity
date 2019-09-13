@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-class ConformationModal extends React.Component {
+class ConfirmationModal extends React.Component {
 
   render() {
     return (
@@ -19,11 +19,11 @@ class ConformationModal extends React.Component {
               this.props.handleModalClose()
             }}>
               Ok
-  </Button>
+          </Button>
           </Modal.Footer>
         </Modal >
       </Fragment>)
   }
 }
 
-export default ConformationModal;
+export default ConfirmationModal;
