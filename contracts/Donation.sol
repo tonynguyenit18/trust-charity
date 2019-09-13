@@ -25,8 +25,8 @@ contract Donation {
 
     // constructor
     constructor() public{
-        addPost(1);
-        addPost(2);
+        // addPost(1);
+        // addPost(2);
     }
 
     // funciton returns how much more to reach the goal
@@ -35,7 +35,7 @@ contract Donation {
     }
 
     // function to add a new post with id parameter
-    function addPost (uint _id) private {
+    function addPost (uint _id) public {
         require(_id > 0, "Invalid post");
         // increment post count
         postCount ++;
