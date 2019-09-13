@@ -1,12 +1,14 @@
 import React from "react";
 import axios from 'axios'
-
+import ConfirmationModal from './confirmationModal'
 
 class Charity extends React.Component {
   state = {
     post_title: '',
     post_location: '',
-    post_description: ''
+    post_description: '',
+    modalShow: false,
+    modalMessage: ''
   }
 
   handleTitleChange = (v) => {
@@ -21,7 +23,20 @@ class Charity extends React.Component {
     this.setState({ post_description: v })
   }
 
+  handleModalClose = () => this.setState({ modalShow: false })
+  handleModalShow = () => this.setState({ modalShow: true })
+
+
   submitCharity = () => {
+
+    // set validtion for the submit form
+    if (this.state.post_title === '' || this.state.post_location === '' || this.state.post_description === '') {
+      const message = "Please fill all of the required fields"
+      this.setState({ modalMessage: message, modalShow: true })
+
+      return
+    }
+
     const postUrl = 'http://localhost:8000/posts'
 
     axios.post(postUrl, {
@@ -30,17 +45,30 @@ class Charity extends React.Component {
       description: this.state.post_description,
       user_id: '5d719a0abbb7a3ee252c99ac' // at the moment user id is hard coded but, when the authentication is done, we need to use current user id
     })
-      .then(function (response) {
-        console.log(response);
+      .then((response) => {
+        const message = "Your charity activity has been submitted successfully and in a process. We will get back to you shortly."
+        this.setState({
+          modalMessage: message,
+          modalShow: true, post_title: '',
+          post_location: '',
+          post_description: ''
+        })
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        const message = error.message
+        this.setState({
+          modalMessage: message,
+          modalShow: true, post_title: '',
+          post_location: '',
+          post_description: ''
+        })
       });
   }
 
   render() {
     return (
       <div className="container-fluid" style={{ backgroundColor: '#14BDEB' }}>
+        <ConfirmationModal modalMessage={this.state.modalMessage} modalShow={this.state.modalShow} handleModalClose={this.handleModalClose} />
 
         {/* title section */}
         <div className="row justify-content-center">
