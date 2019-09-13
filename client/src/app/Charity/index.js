@@ -28,6 +28,15 @@ class Charity extends React.Component {
 
 
   submitCharity = () => {
+
+    // set validtion for the submit form
+    if (this.state.post_title === '' || this.state.post_location === '' || this.state.post_description === '') {
+      const message = "Please fill all of the required fields"
+      this.setState({ modalMessage: message, modalShow: true })
+
+      return
+    }
+
     const postUrl = 'http://localhost:8000/posts'
 
     axios.post(postUrl, {
