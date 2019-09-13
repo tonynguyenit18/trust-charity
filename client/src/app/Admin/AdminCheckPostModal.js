@@ -7,7 +7,7 @@ class AdminCheckPostModal extends React.Component {
 
   rejectHandle = () => {
     const postUpdateUrl = `http://localhost:8000/posts/${this.props.postObj._id}`
-    // get new posts(status:0) and set them to state
+    // set status 2(rejected) to the selected post
     axios.put(postUpdateUrl, { status: 2 }).then((res) => {
       this.props.removePostById(this.props.postObj._id)
       this.props.handleModalClose()
@@ -16,11 +16,17 @@ class AdminCheckPostModal extends React.Component {
     })
   }
 
+  // set status 1(processing) to the selected post
   approveHandle = () => {
     const postUpdateUrl = `http://localhost:8000/posts/${this.props.postObj._id}`
     // get new posts(status:0) and set them to state
     axios.put(postUpdateUrl, { status: 1 }).then((res) => {
       this.props.removePostById(this.props.postObj._id)
+
+      // add post to a blockchain through our smart contract
+      this.props.donationContract.addPost(this.props.postObj._id, { from: this.props.account })
+
+
       this.props.handleModalClose()
     }).catch((e) => {
       console.log(e)

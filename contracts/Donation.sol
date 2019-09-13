@@ -20,18 +20,26 @@ contract Donation {
     //posts key value pair.(the key is post's id)
     mapping(uint => Post) public posts;
 
+    // store post ids as array for looping through
+    uint[] public postIdsArray;
+
     // Store Post Count
     uint public postCount;
 
     // constructor
     constructor() public{
-        // addPost(1);
-        // addPost(2);
+        addPost(98);
+        addPost(99);
     }
 
     // funciton returns how much more to reach the goal
-    function howMuchMoreToGoal(uint _postId) view public returns(uint256){
+    function howMuchMoreToGoal(uint _postId) public view returns(uint256){
      return posts[_postId].goalAmount - posts[_postId].donationTotalAmount;
+    }
+
+    // return postIds array
+    function getPostIds() public view returns(uint[] memory){
+        return postIdsArray;
     }
 
     // function to add a new post with id parameter
@@ -39,6 +47,8 @@ contract Donation {
         require(_id > 0, "Invalid post");
         // increment post count
         postCount ++;
+        // set the post id in postIds array
+        postIdsArray.push(_id);
 
         // set default values (5 ether is set as a goal amount and destination is current user (they are only for dubug))
         posts[_id] = Post(_id, 0, 0, 5000000000000000000, 0, msg.sender);

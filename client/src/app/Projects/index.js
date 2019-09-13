@@ -116,7 +116,7 @@ class Projects extends React.Component {
             ))}
           </div>
           <Charity />
-          <Admin />
+          <Admin donationContract={this.props.donationContract} account={this.props.account} />
         </div>
       </div>
     );

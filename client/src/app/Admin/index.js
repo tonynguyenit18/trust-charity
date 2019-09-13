@@ -43,7 +43,14 @@ class Admin extends React.Component {
     return (
       <div className='container-fluid'>
 
-        <AmdminCheckModal modalShow={this.state.modalShow} handleModalClose={this.handleModalClose} postObj={this.state.selectedPost} removePostById={this.removePostById} />
+        <AmdminCheckModal
+          account={this.props.account}
+          donationContract={this.props.donationContract}
+          modalShow={this.state.modalShow}
+          handleModalClose={this.handleModalClose}
+          postObj={this.state.selectedPost}
+          removePostById={this.removePostById}
+        />
         {/* title section */}
         <div className="row justify-content-center">
           <div className="col-4 mt-5 text-center">
