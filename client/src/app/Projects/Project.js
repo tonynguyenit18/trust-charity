@@ -11,8 +11,8 @@ class Project extends React.Component {
     this.state = {};
   }
 
-  handleProjectClick = () => {
-    this.props.handleProjectClick(this.props.project);
+  handleProjectClick = (action) => () => {
+    this.props.handleProjectClick(this.props.project, action);
   };
 
   render() {
@@ -20,9 +20,8 @@ class Project extends React.Component {
     return (
       <div
         className="col-md-3 project-container__item"
-        onClick={this.handleProjectClick}
       >
-        <img style={{ width: "100%" }} src={headerImage}></img>
+        <img style={{ width: "100%", cursor: "pointer" }} src={headerImage} onClick={this.handleProjectClick("")}></img>
         <div className="row mt-2">
           <div className="col-md-6">
             <p>
@@ -30,11 +29,11 @@ class Project extends React.Component {
               {project.donationTotalAmount}
             </p>
             <p>
-              <strong>Gold: </strong>
+              <strong>Goal: </strong>
               {project.goalAmount}
             </p>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ cursor: "pointer" }} onClick={this.handleProjectClick("donate")}>
             <p>
               <FontAwesomeIcon
                 icon={faHandHoldingUsd}
@@ -45,7 +44,7 @@ class Project extends React.Component {
               {project.upVote}
             </p>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3" style={{ cursor: "pointer" }} onClick={this.handleProjectClick("report")}>
             <p>
               <FontAwesomeIcon
                 icon={faFrown}
