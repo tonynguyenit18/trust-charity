@@ -14,7 +14,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: "0x0",
+      account: "",
       candidates: [],
       hasVoted: false,
       loading: true,
@@ -40,6 +40,7 @@ class App extends Component {
 
       const instance = await Contract.deployed();
 
+      window.ethereum.on('accountsChanged', this.handleMetaMaskAccountChanged)
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState(
@@ -83,6 +84,12 @@ class App extends Component {
     return { projectId, upVote, downVote, donationTotalAmount, goalAmount };
   };
 
+  handleMetaMaskAccountChanged = accounts => {
+    if (accounts && accounts[0]) {
+      this.setState({ account: accounts[0] })
+    }
+  }
+
   render() {
     // admin user is true for the debugging purposes
     const adminUser = false;
@@ -99,7 +106,8 @@ class App extends Component {
           <Projects projects={this.state.projects}
             donationContract={this.state.contracts ? this.state.contracts.donation : null}
             web3={this.state.web3}
-            account={this.state.account}></Projects>
+            account={this.state.account}
+            reLoadPage={this.setupAccount}></Projects>
         ) : null}
 
       </div>

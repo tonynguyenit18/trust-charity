@@ -55,18 +55,33 @@ class ProjectDetail extends React.Component {
             </p>
           </div>
         </div>
-        <form >
-          <div className="form-group">
-            <label htmlFor="donateAmount">
-              <strong>Donate Amount</strong>
-            </label>
-            <input
-              className="form-control"
-              name="donateAmount"
-              value={project.donateAmount ? project.donateAmount : ""}
-              onChange={this.props.handleDonateAmountChange}></input>
-          </div>
-        </form>
+        {!this.props.desireAction ? null :
+          this.props.desireAction == "donate" ?
+            <form >
+              <div className="form-group">
+                <label htmlFor="donateAmount">
+                  <strong>Donate Amount</strong>
+                </label>
+                <input
+                  className="form-control"
+                  name="donateAmount"
+                  value={project.donateAmount ? project.donateAmount : ""}
+                  onChange={this.props.handleDonateAmountChange}></input>
+              </div>
+            </form> :
+            <form >
+              <div className="form-group">
+                <label htmlFor="reportReason">
+                  <strong>Report reason</strong>
+                </label>
+                <textarea
+                  className="form-control"
+                  style={{ minHeight: "150px" }}
+                  name="reportReason"
+                  value={project.reportReason ? project.reportReason : ""}
+                  onChange={this.props.handleReportReasonChange}></textarea>
+              </div>
+            </form>}
       </div>
     );
   }
