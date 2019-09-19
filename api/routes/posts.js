@@ -3,8 +3,21 @@ const Post = require('../models/Post')
 
 const router = new express.Router();
 
+// get all posts
 router.get("/posts", (req, res) => {
   Post.find()
+    .then(posts => {
+      res.json(posts);
+    })
+    .catch(error => {
+      res.json({ error });
+    });
+});
+
+// get new posts (status 0)
+router.get("/new_posts", (req, res) => {
+  Post.find()
+    .where('status').equals(0)
     .then(posts => {
       res.json(posts);
     })
@@ -26,7 +39,7 @@ router.post("/posts", (req, res) => {
 });
 
 // update
-router.patch("/posts/:id", (req, res) => {
+router.put("/posts/:id", (req, res) => {
   const id = req.params.id;
   const changes = req.body;
   Post.findByIdAndUpdate(id, changes)

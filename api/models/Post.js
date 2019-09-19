@@ -1,4 +1,9 @@
 const mongo = require("./init") // initialize connection with mondodb
+const mongoose = require("mongoose")
+const autoIncrement = require('mongoose-auto-increment');
+
+// initialize the autoIncrement npm
+autoIncrement.initialize(mongoose.connection)
 
 // define model's schema
 const postSchema = new mongo.Schema(
@@ -14,7 +19,8 @@ const postSchema = new mongo.Schema(
     timestamps: true // add updated at and created at timestamps
   }
 )
-
+// set auto increment id plugin
+postSchema.plugin(autoIncrement.plugin, 'Post');
 // cretae Post model with the schema
 const Post = mongo.model("Post", postSchema)
 

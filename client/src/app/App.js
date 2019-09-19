@@ -62,16 +62,17 @@ class App extends Component {
 
   setupAccount = async () => {
     const { contracts } = this.state;
-    console.log(contracts.donation, this.state);
-    let postCount = await contracts.donation.postCount();
-    postCount = postCount.toNumber();
+    let postIdsArray = await contracts.donation.getPostIds();
+
     const projects = [];
-    for (var i = 1; i <= postCount; i++) {
-      const post = await contracts.donation.posts(i);
+
+    for (var i = 0; i < postIdsArray.length; i++) {
+      const post = await contracts.donation.posts(postIdsArray[i].toNumber());
       const project = this.getProjectInfo(post);
       projects.push(project);
     }
-    console.log(projects);
+
+    console.log(projects)
     this.setState({ projects });
   };
 
@@ -103,7 +104,8 @@ class App extends Component {
       <div className="app container-fluid">
         <Header></Header>
         {this.state.projects && this.state.projects.length > 0 ? (
-          <Projects projects={this.state.projects}
+          <Projects
+            projects={this.state.projects}
             donationContract={this.state.contracts ? this.state.contracts.donation : null}
             web3={this.state.web3}
             account={this.state.account}
