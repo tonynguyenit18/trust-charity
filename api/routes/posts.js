@@ -1,5 +1,6 @@
 const express = require("express");
 const Post = require('../models/Post')
+const S3 = require('../controller/S3Controller')
 
 const router = new express.Router();
 
@@ -54,6 +55,11 @@ router.put("/posts/:id", (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
+
+// upload image
+router.post('/sign_s3', (req, res) => {
+  S3.sign_s3(req, res)
+})
 
 
 module.exports = router;
