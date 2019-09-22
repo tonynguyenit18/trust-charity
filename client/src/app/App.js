@@ -7,6 +7,8 @@ import Header from "./Header";
 import Projects from "./Projects";
 import Admin from "./Admin";
 
+import axios from 'axios'
+
 
 import "../css/app.css";
 
@@ -63,15 +65,21 @@ class App extends Component {
     const { contracts } = this.state;
     let postIdsArray = await contracts.donation.getPostIds();
 
-    const projects = [];
+    // get post data form database (ideally only posts with status 1)
+    const fetchedPostData = await axios.get("http://localhost:8000/posts")
+    const fetchedPosts = fetchedPostData.data
 
+    const projects = [];
     for (var i = 0; i < postIdsArray.length; i++) {
+      let completeObj = null
       const post = await contracts.donation.posts(postIdsArray[i].toNumber());
       const project = this.getProjectInfo(post);
-      projects.push(project);
+      // find correspoding post by id
+      const correspondingPostDatabase = fetchedPosts.find((p) => p._id === postIdsArray[i].toNumber())
+      // conbine those two post(blockchain one and external database one)
+      completeObj = Object.assign(project, correspondingPostDatabase)
+      projects.push(completeObj)
     }
-
-    console.log(projects)
     this.setState({ projects });
   };
 

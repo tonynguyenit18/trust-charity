@@ -20,7 +20,7 @@ class ProjectDetail extends React.Component {
     const { project } = this.props;
     return (
       <div className="w-100" onClick={this.handleProjectClick}>
-        <img style={{ width: "100%" }} src={headerImage}></img>
+        <img style={{ width: "100%" }} src={project.imageUrl || headerImage}></img>
         <div className="row mt-2">
           <div className="col-md-6">
             <p>
