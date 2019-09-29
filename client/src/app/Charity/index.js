@@ -6,22 +6,15 @@ class Charity extends React.Component {
   state = {
     post_title: '',
     post_location: '',
+    post_goal_amount: '',
     post_description: '',
     modalShow: false,
     modalMessage: '',
     successUpload: false
   }
 
-  handleTitleChange = (v) => {
-    this.setState({ post_title: v })
-  }
-
-  handleLocationChange = (v) => {
-    this.setState({ post_location: v })
-  }
-
-  handleDescriptionChange = (v) => {
-    this.setState({ post_description: v })
+  handleInputChange = (section, v) => {
+    this.setState({ [section]: v })
   }
 
   handleModalClose = () => this.setState({ modalShow: false })
@@ -30,8 +23,13 @@ class Charity extends React.Component {
 
   submitCharity = () => {
     // set validtion for the submit form
-    if (this.state.post_title === '' || this.state.post_location === '' || this.state.post_description === '') {
+    if (this.state.post_title === '' || this.state.post_location === '' || this.state.post_description === '' || this.uploadInput.files.length === 0) {
       const message = "Please fill all of the required fields"
+      this.setState({ modalMessage: message, modalShow: true })
+
+      return
+    } else if (parseInt(this.state.post_goal_amount) < 0) {
+      const message = "Goal Amount can not be negative"
       this.setState({ modalMessage: message, modalShow: true })
 
       return
@@ -70,6 +68,7 @@ class Charity extends React.Component {
             axios.post(postUrl, {
               title: this.state.post_title,
               location: this.state.post_location,
+              goalAmount: this.state.post_goal_amount,
               imageUrl: image_url,
               description: this.state.post_description,
               user_id: '5d719a0abbb7a3ee252c99ac' // at the moment user id is hard coded but, when the authentication is done, we need to use current user id
@@ -152,7 +151,7 @@ class Charity extends React.Component {
                   value={this.state.post_title}
                   onChange={(e) => {
                     const value = e.target.value
-                    this.handleTitleChange(value)
+                    this.handleInputChange(e.target.id, value)
                   }} />
               </div>
 
@@ -165,14 +164,14 @@ class Charity extends React.Component {
                   value={this.state.post_location}
                   onChange={(e) => {
                     const value = e.target.value
-                    this.handleLocationChange(value)
+                    this.handleInputChange(e.target.id, value)
                   }}
                 />
               </div>
             </div>
 
             <div className='row mb-2'>
-              <div className='col-12'>
+              <div className='col-6'>
                 <label htmlFor="post_image" className='text-light'>Image</label>
                 <input
                   id="post_image"
@@ -181,6 +180,19 @@ class Charity extends React.Component {
                   ref={(ref) => { this.uploadInput = ref; }}
                   onChange={(e) => {
                     this.handleFileInputChange()
+                  }}
+                />
+              </div>
+              <div className='col-6'>
+                <label htmlFor="post_goal_amount" className='text-light'>Goal Amount(Ether)</label>
+                <input
+                  type="Number"
+                  className="form-control"
+                  id="post_goal_amount"
+                  value={this.state.post_goal_amount}
+                  onChange={(e) => {
+                    const value = e.target.value
+                    this.handleInputChange(e.target.id, value)
                   }}
                 />
               </div>
@@ -196,7 +208,7 @@ class Charity extends React.Component {
                   value={this.state.post_description}
                   onChange={(e) => {
                     const value = e.target.value
-                    this.handleDescriptionChange(value)
+                    this.handleInputChange(e.target.id, value)
                   }}
                 ></textarea>
               </div>
