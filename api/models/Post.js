@@ -14,6 +14,7 @@ const postSchema = new mongo.Schema(
     description: String,
     user_id: String,
     location: String,
+    goalAmount: Number    // donate goal amount(Ether)
   },
   {
     timestamps: true // add updated at and created at timestamps

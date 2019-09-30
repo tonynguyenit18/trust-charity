@@ -21,7 +21,19 @@ class Project extends React.Component {
       <div
         className="col-md-3 project-container__item"
       >
-        <img style={{ width: "100%", cursor: "pointer" }} src={headerImage} onClick={this.handleProjectClick("")}></img>
+        <div className='col-12 text-center'>
+          <h5>
+            {project.title}
+          </h5>
+        </div>
+        <img style={{ width: "100%", cursor: "pointer" }} src={project.imageUrl || headerImage} onClick={this.handleProjectClick("")}></img>
+        <div className="row mt-2">
+          <div className='col-6'>
+            <small>
+              {project.location}
+            </small>
+          </div>
+        </div>
         <div className="row mt-2">
           <div className="col-md-6">
             <p>

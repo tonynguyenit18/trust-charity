@@ -28,8 +28,8 @@ contract Donation {
 
     // constructor
     constructor() public{
-        addPost(98);
-        addPost(99);
+        addPost(98, 5);
+        addPost(99, 5);
     }
 
     // funciton returns how much more to reach the goal
@@ -43,15 +43,17 @@ contract Donation {
     }
 
     // function to add a new post with id parameter
-    function addPost (uint _id) public {
+    function addPost (uint _id, uint _goal) public {
         require(_id > 0, "Invalid post");
         // increment post count
         postCount ++;
         // set the post id in postIds array
         postIdsArray.push(_id);
+        // convert Ether to Wei
+        uint256  weiGoal = _goal * 1000000000000000000;
 
         // set default values (5 ether is set as a goal amount and destination is current user (they are only for dubug))
-        posts[_id] = Post(_id, 0, 0, 5000000000000000000, 0, msg.sender);
+        posts[_id] = Post(_id, 0, 0, weiGoal, 0, msg.sender);
     }
 
     function donate (uint _postId) public payable{

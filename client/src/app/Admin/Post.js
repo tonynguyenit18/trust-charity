@@ -8,7 +8,7 @@ class Post extends React.Component {
     return (
       <Fragment>
         <Card >
-          <Card.Img variant="top" src={headerImage} />
+          <Card.Img variant="top" src={this.props.postObj.imageUrl || headerImage} />
           <Card.Body>
             <small>{this.props.postObj.location}</small>
             <Card.Title>{this.props.postObj.title}</Card.Title>
