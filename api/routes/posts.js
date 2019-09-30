@@ -4,7 +4,7 @@ const Post = require('../models/Post')
 const router = new express.Router();
 
 // get all posts
-router.get("/posts", (req, res) => {
+router.get("/", (req, res) => {
   Post.find()
     .then(posts => {
       res.json(posts);
@@ -15,7 +15,7 @@ router.get("/posts", (req, res) => {
 });
 
 // get new posts (status 0)
-router.get("/new_posts", (req, res) => {
+router.get("/new", (req, res) => {
   Post.find()
     .where('status').equals(0)
     .then(posts => {
@@ -27,7 +27,7 @@ router.get("/new_posts", (req, res) => {
 });
 
 //create
-router.post("/posts", (req, res) => {
+router.post("/", (req, res) => {
   const attributes = req.body;
   Post.create(attributes)
     .then(post => {
@@ -39,7 +39,7 @@ router.post("/posts", (req, res) => {
 });
 
 // update
-router.put("/posts/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   const id = req.params.id;
   const changes = req.body;
   Post.findByIdAndUpdate(id, changes)
