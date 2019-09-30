@@ -1,5 +1,8 @@
 import React from "react";
 import "./header.css";
+import { Link } from "react-router-dom";
+
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -73,8 +76,12 @@ class Header extends React.Component {
               Trust Charity
             </a>
             <div className="d-flex flex-row-reverse">
-              <button className="btn-in-navbar">Register</button>
-              <button className="btn-in-navbar">Log in</button>
+              <Link to="/register">
+                <button className="btn-in-navbar">Register</button>
+              </Link>
+              <Link to="/login">
+                <button className="btn-in-navbar">Log in</button>
+              </Link>
               <button
                 className="btn-in-navbar"
                 onClick={this.moveToSection("page-content")}
