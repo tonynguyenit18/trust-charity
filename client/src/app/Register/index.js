@@ -3,7 +3,8 @@ import Header from "../Header";
 import { register } from "../utils/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
+import getWeb3 from "../../utils/getWeb3";
 import "./register.css"
 
 class Login extends React.Component {
@@ -24,7 +25,16 @@ class Login extends React.Component {
             responseError: "",
             isAllvalid: true,
             isProcessing: false,
-            user: null
+            user: null,
+            accountAddress: null
+        }
+    }
+
+    async componentDidMount() {
+        const web3 = await getWeb3()
+        const accountAddress = await web3.eth.getCoinbase();
+        if (accountAddress) {
+            this.setState({ accountAddress })
         }
     }
 
@@ -34,7 +44,11 @@ class Login extends React.Component {
 
     handleRadioButtonChange = event => {
         if (event.target.checked) {
-            this.setState({ role: event.target.name })
+            let responseError = null;
+            if (!this.state.accountAddress && (event.target.name == "donator" || event.target.name == "wholesaler")) {
+                responseError = "Donator and Wholesaler need tpo log in with metamask!"
+            }
+            this.setState({ role: event.target.name, responseError })
         }
     }
 
@@ -42,13 +56,25 @@ class Login extends React.Component {
         this.validateAll()
     }
 
-    register = () => {
+    register = async () => {
         if (!this.state.isAllvalid) return;
-        this.setState({ isProcessing: true })
         const { firstName, lastName, email, password, role } = this.state;
         const userName = firstName + " " + lastName;
-        const body = { userName, password, email, role };
+        let accountAddress = this.state.accountAddress
+        if (!accountAddress && (role == "donator" || role == "wholesaler")) {
+            accountAddress = await this.getMetaMaskAccountAddress();
+            console.log(accountAddress)
+            if (accountAddress) {
+                this.setState({ accountAddress, responseError: "" })
+            } else {
+                this.setState({ responseError: "Donator and Wholesaler need tpo log in with metamask!" })
+                return
+            }
+        }
 
+        const body = { address: accountAddress, userName, password, email, role };
+
+        this.setState({ isProcessing: true })
         register(body).then(response => {
             if (response.data && response.data.user) {
                 if (response.data.user.token) {
@@ -100,9 +126,15 @@ class Login extends React.Component {
         this.setState({ validationMsg, isAllvalid }, this.register)
     }
 
+    getMetaMaskAccountAddress = async () => {
+        const web3 = await getWeb3()
+        const account = await web3.eth.getCoinbase();
+        await window.ethereum.enable();
+        return account;
+    }
 
     render() {
-        const { validationMsg, user } = this.state
+        const { validationMsg, user, accountAddress, role } = this.state
         return (
             <React.Fragment>
                 {user ? <Redirect to={{
@@ -164,7 +196,8 @@ class Login extends React.Component {
                                 </div>
                                 <div className="d-flex justify-content-center mt-3">
                                     <button className="btn btn-primary" onClick={this.handleRegisterClick} style={{ minWidth: "100px" }} disabled={this.state.isProcessing}>
-                                        {this.state.isProcessing ? <FontAwesomeIcon icon={faSpinner} size="sm" style={{ color: "#ffffff" }} spin /> : "Register"}
+                                        {this.state.isProcessing ? <FontAwesomeIcon icon={faSpinner} size="sm" style={{ color: "#ffffff" }} spin /> : accountAddress || role == "poster" ? "Register" : "MetaMask"
+                                        }
                                     </button>
                                 </div>
                                 <div className=" w-100 text-center">

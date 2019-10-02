@@ -3,7 +3,8 @@ import Header from "../Header";
 import { login } from "../utils/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
+import getWeb3 from "../../utils/getWeb3"
 
 class Login extends React.Component {
     constructor(props) {
@@ -43,10 +44,17 @@ class Login extends React.Component {
         const { email, password } = this.state;
         const body = { password, email };
 
-        login(body).then(response => {
+        login(body).then(async response => {
             if (response.data && response.data.user) {
                 if (response.data.user.token) {
                     localStorage.setItem("access_token", response.data.user.token)
+                }
+                if (response.data.user.role == "donator" || response.data.user.role == "wholesaler") {
+                    const web3 = await getWeb3()
+                    const accountAddress = await web3.eth.getCoinbase();
+                    if (!accountAddress) {
+                        await window.ethereum.enable();
+                    }
                 }
                 this.setState({ user: response.data.user, isProcessing: false })
             }

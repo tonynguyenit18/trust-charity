@@ -8,7 +8,7 @@ const authMiddleware = require("../middlewares/authMiddleware")
 const router = new express.Router();
 
 router.post("/", async (req, res) => {
-  let { userName, email, password, role } = req.body;
+  let { userName, email, password, role, address } = req.body;
   email = email.toLowerCase();
   role = role.toLowerCase();
 
@@ -30,7 +30,8 @@ router.post("/", async (req, res) => {
       userName,
       password: hash,
       email,
-      role
+      role,
+      address
     })
 
     try {

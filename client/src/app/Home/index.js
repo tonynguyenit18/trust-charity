@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DonationContract from "../../contracts/Donation.json";
 import getWeb3 from "../../utils/getWeb3";
 import truffleContract from "truffle-contract";
+import { AppContext } from "../App"
 
 import Header from "../Header";
 import Projects from "../Projects";
@@ -54,6 +55,7 @@ class Home extends Component {
           web3,
           account,
           contracts: { ...this.state.contracts, donation: instance },
+          user
         },
         this.setupAccount
       );
@@ -106,18 +108,25 @@ class Home extends Component {
     }
 
     return (
-      <div className="app container-fluid">
-        <Header></Header>
-        {this.state.projects && this.state.projects.length > 0 ? (
-          <Projects
-            projects={this.state.projects}
-            donationContract={this.state.contracts ? this.state.contracts.donation : null}
-            web3={this.state.web3}
-            account={this.state.account}
-            reLoadPage={this.setupAccount}></Projects>
-        ) : null}
-
-      </div>
+      <AppContext.Consumer>
+        {context => (
+          <div className="app container-fluid">
+            <Header></Header>
+            {this.state.projects && this.state.projects.length > 0 ? (
+              <Projects
+                projects={this.state.projects}
+                donationContract={this.state.contracts ? this.state.contracts.donation : null}
+                web3={this.state.web3}
+                account={this.state.account}
+                reLoadPage={this.setupAccount}></Projects>
+            ) : null}
+            {this.state.account || (this.state.user && this.state.user.address) ?
+              <div style={{ width: "100vw", position: "fixed", bottom: 0, height: "40px", backgroundColor: "#fff", textAlign: "center" }}>
+                <p style={{ marginTop: "10px" }}>Address: {this.state.account ? this.state.account : this.user.address}</p>
+              </div> : null}
+          </div>
+        )}
+      </AppContext.Consumer>
     );
   }
 }
