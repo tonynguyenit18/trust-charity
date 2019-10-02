@@ -1,5 +1,8 @@
 import React from "react";
 import "./header.css";
+import { Link } from "react-router-dom";
+import { AppContext } from "../App"
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +20,14 @@ class Header extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScrollAction);
+  }
+
+  handleLogout = (context) => () => {
+    localStorage.clear();
+    if (context.clearUser && context.clearUser instanceof Function) {
+      context.clearUser()
+    }
+
   }
 
   handleScrollAction = () => {
@@ -52,40 +63,57 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="header">
-        <div
-          className="header-content"
-          style={
-            this.state.headerWithBackground
-              ? { backgroundColor: "#000000" }
-              : {}
-          }
-        >
-          <nav
-            className="navbar navbar-expand-lg navbar-ligth justify-content-between"
-            style={{ backgroundColor: "#ffffff00" }}
-          >
-            <a
-              className="navbar-brand"
-              style={{ color: "#14BDEB", fontWeight: "bold" }}
-              href="#"
+      <AppContext.Consumer>
+        {context => (
+          <div className="header">
+            <div
+              className="header-content"
+              style={
+                this.state.headerWithBackground || this.props.backgroundColor
+                  ? { backgroundColor: "#000000" }
+                  : {}
+              }
             >
-              Trust Charity
-            </a>
-            <div className="d-flex flex-row-reverse">
-              <button className="btn-in-navbar">Register</button>
-              <button className="btn-in-navbar">Log in</button>
-              <button
-                className="btn-in-navbar"
-                onClick={this.moveToSection("page-content")}
+              <nav
+                className="navbar navbar-expand-lg navbar-ligth justify-content-between"
+                style={{ backgroundColor: "#ffffff00" }}
               >
-                Projects
+                <Link
+                  className="navbar-brand"
+                  style={{ color: "#14BDEB", fontWeight: "bold" }}
+                  to="/"
+                >
+                  Trust Charity
+            </Link>
+                <div className="d-flex flex-row-reverse">
+                  {context && context.user ?
+                    <button className="btn-in-navbar" onClick={this.handleLogout(context)}>Log out</button>
+                    :
+                    <React.Fragment>
+                      <Link to="/register">
+                        <button className="btn-in-navbar">Register</button>
+                      </Link>
+                      <Link to="/login">
+                        <button className="btn-in-navbar">Log in</button>
+                      </Link>
+                    </React.Fragment>}
+                  <button
+                    className="btn-in-navbar"
+                    onClick={this.moveToSection("page-content")}
+                  >
+                    Projects
               </button>
-              <button className="btn-in-navbar">Petrons</button>
+                  <button className="btn-in-navbar">Petrons</button>
+                </div>
+              </nav>
+              {context && context.user && context.user.role && context.user.userName ?
+                <div style={{ textAlign: "right", marginRight: "3%" }}>
+                  <p style={{ color: "#ffffff" }}>{`${context.user.role.toUpperCase()}: ${context.user.userName}`}</p>
+                </div> : null}
             </div>
-          </nav>
-        </div>
-      </div>
+          </div>
+        )}
+      </AppContext.Consumer>
     );
   }
 }

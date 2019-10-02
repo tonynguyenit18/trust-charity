@@ -1,6 +1,8 @@
 const express = require("express") // import express module
-const bodyParser = require("body-parser") // import body-parser module
 const cors = require("cors") // import body-parser module
+const users = require("./routes/users");
+const posts = require("./routes/posts");
+const auth = require("./routes/auth");
 
 const server = express()
 
@@ -10,18 +12,12 @@ const port = process.env.PORT || 8000
 // for using cors
 server.use(cors())
 // set bodyParser to use
-server.use(bodyParser.json())
+server.use(express.json())
 
 // router
-server.use([require("./routes/users"), require("./routes/posts")])
-
-server.use((error, req, res, next) => {
-  res.json({
-    error: {
-      message: error.message
-    }
-  })
-})
+server.use("/posts", posts);
+server.use("/user", users)
+server.use("/auth", auth)
 
 // create server with port variable
 server.listen(port, error => {
