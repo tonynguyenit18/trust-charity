@@ -1,9 +1,9 @@
 const express = require("express") // import express module
 const bodyParser = require("body-parser") // import body-parser module
 const cors = require("cors") // import body-parser module
-
+//const services =require("./services")
 const server = express()
-
+//const db=require('./db');
 // process env is a value from Heroku
 const port = process.env.PORT || 8000
 
@@ -11,9 +11,10 @@ const port = process.env.PORT || 8000
 server.use(cors())
 // set bodyParser to use
 server.use(bodyParser.json())
+// Mount REST on /api
 
 // router
-server.use([require("./routes/users"), require("./routes/posts")])
+server.use([ require("./routes/users"), require("./routes/posts")])
 
 server.use((error, req, res, next) => {
   res.json({

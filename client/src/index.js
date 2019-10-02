@@ -5,8 +5,13 @@ import "./css/index.css";
 import App from "./app/App";
 import * as serviceWorker from "./serviceWorker";
 import "jquery";
+import { config as dotEnvConfig } from 'dotenv';
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
+// Load ENV variables
+dotEnvConfig({
+    path: process.env.NODE_ENV === 'production' ? '.env.prod' : '.env'
+  });
 
 render(<App />, document.getElementById("root"));
 

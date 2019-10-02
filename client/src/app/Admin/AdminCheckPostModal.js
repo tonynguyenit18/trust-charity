@@ -20,7 +20,7 @@ class AdminCheckPostModal extends React.Component {
   approveHandle = () => {
 
     // add post to a blockchain through our smart contract
-    this.props.donationContract.addPost(this.props.postObj._id, this.props.postObj.goalAmount, { from: this.props.account }).then((data, err) => {
+    this.props.donationContract.addPost(this.props.postObj._id, this.props.postObj.goalAmount, { from: this.props.publicAddress }).then((data, err) => {
       if (err) {
         console.log(err)
       } else {

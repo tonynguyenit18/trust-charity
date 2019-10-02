@@ -1,5 +1,6 @@
 import React from "react";
 import "./header.css";
+//import { NavLink } from "react-router-dom";
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -14,9 +15,11 @@ class Header extends React.Component {
   componentDidMount() {
     window.addEventListener("scroll", this.handleScrollAction);
   }
+  
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScrollAction);
+  
   }
 
   handleScrollAction = () => {
@@ -49,8 +52,15 @@ class Header extends React.Component {
       behavior: "smooth"
     });
   };
+  registerClicked = register => event => {
+    console.log("Register Clicked");
+
+  }
 
   render() {
+    console.log("hello")
+    console.log(this.props.web3)
+    const { auth } = this.state;
     return (
       <div className="header">
         <div
@@ -73,7 +83,9 @@ class Header extends React.Component {
               Trust Charity
             </a>
             <div className="d-flex flex-row-reverse">
-              <button className="btn-in-navbar">Register</button>
+            {auth ? (<button className="btn-in-navbar" onClick={this.registerClicked()}>Logout</button>) 
+            : (<button className="btn-in-navbar" onClick={this.registerClicked()} web3={this.props.web3}>Register</button>)}
+              
               <button className="btn-in-navbar">Log in</button>
               <button
                 className="btn-in-navbar"
