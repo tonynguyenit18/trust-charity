@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DonationContract from "../contracts/Donation.json";
 import getWeb3 from "../utils/getWeb3";
 import truffleContract from "truffle-contract";
-
+import "../css/app.css";
 import Header from "./Header";
 import Projects from "./Projects";
 import Admin from "./Admin";
@@ -10,13 +10,11 @@ import Admin from "./Admin";
 import axios from 'axios'
 
 
-import "../css/app.css";
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: "",
+      publicAddress: "",
       candidates: [],
       hasVoted: false,
       loading: true,
@@ -35,8 +33,8 @@ class App extends Component {
       const web3 = await getWeb3();
 
       // Use web3 to get the user's accounts.
-      const account = await web3.eth.getCoinbase();
-      const Contract = truffleContract(DonationContract, account);
+      const publicAddress = await web3.eth.getCoinbase();
+      const Contract = truffleContract(DonationContract, publicAddress);
 
       Contract.setProvider(web3.currentProvider);
 
@@ -48,7 +46,7 @@ class App extends Component {
       this.setState(
         {
           web3,
-          account,
+          publicAddress,
           contracts: { ...this.state.contracts, donation: instance }
         },
         this.setupAccount
@@ -61,6 +59,7 @@ class App extends Component {
       console.error(error);
     }
   };
+  
 
   setupAccount = async () => {
     const { contracts } = this.state;
@@ -95,7 +94,7 @@ class App extends Component {
 
   handleMetaMaskAccountChanged = accounts => {
     if (accounts && accounts[0]) {
-      this.setState({ account: accounts[0] })
+      this.setState({ publicAddress: accounts[0] })
     }
   }
 
@@ -110,13 +109,13 @@ class App extends Component {
 
     return (
       <div className="app container-fluid">
-        <Header></Header>
+          <Header web3={this.state.web3}></Header>
         {this.state.projects && this.state.projects.length > 0 ? (
           <Projects
             projects={this.state.projects}
             donationContract={this.state.contracts ? this.state.contracts.donation : null}
             web3={this.state.web3}
-            account={this.state.account}
+            publicAddress={this.state.publicAddress}
             reLoadPage={this.setupAccount}></Projects>
         ) : null}
 

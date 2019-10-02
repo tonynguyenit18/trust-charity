@@ -4,7 +4,7 @@ import ProjectDetail from "./ProjectDetail";
 import headerImage from "../../images/bg-header.png";
 import "./projects.css";
 import { Modal, Button } from "react-bootstrap";
-
+import Register from "../Register";
 import Charity from "../Charity";
 import Admin from "../Admin";
 class Projects extends React.Component {
@@ -29,13 +29,13 @@ class Projects extends React.Component {
 
   handleDonate = async () => {
     let { projectId, donateAmount } = this.state.clickedProject;
-    let { donationContract, account, web3 } = this.props;
+    let { donationContract, publicAddress, web3 } = this.props;
     donateAmount = web3.utils.toWei(donateAmount, "ether");
-    if (!account) {
-      account = await this.getMetaMaskAccountAddress();
+    if (!publicAddress) {
+      publicAddress = await this.getMetaMaskAccountAddress();
     }
-    if (!projectId || !donateAmount || !donationContract || !account) {
-      if (!account) {
+    if (!projectId || !donateAmount || !donationContract || !publicAddress) {
+      if (!publicAddress) {
         this.setState({ donatingError: "There is an error occur. Please check your metamask accoutn." })
       }
       else if (!donateAmount) {
@@ -46,7 +46,7 @@ class Projects extends React.Component {
       return;
     };
     this.setState({ inActionProcess: true })
-    donationContract.donate(projectId, { from: account, value: donateAmount }).then((data, err) => {
+    donationContract.donate(projectId, { from: publicAddress, value: donateAmount }).then((data, err) => {
       if (err) {
         this.setState({ inActionProcess: false, donatingError: "There is an error occur. Please try again" })
         console.log(err)
@@ -61,12 +61,12 @@ class Projects extends React.Component {
 
   handleReport = async () => {
     let { projectId, reportReason } = this.state.clickedProject;
-    let { donationContract, account } = this.props;
-    if (!account) {
-      account = await this.getMetaMaskAccountAddress()
+    let { donationContract, publicAddress } = this.props;
+    if (!publicAddress) {
+      publicAddress = await this.getMetaMaskAccountAddress()
     }
-    if (!projectId || !reportReason || !donationContract || !account) {
-      if (!account) {
+    if (!projectId || !reportReason || !donationContract || !publicAddress) {
+      if (!publicAddress) {
         this.setState({ donatingError: "There is an error occur. Please check your metamask accoutn." })
       }
       else if (!reportReason) {
@@ -77,7 +77,7 @@ class Projects extends React.Component {
       return;
     };
     this.setState({ inActionProcess: true })
-    donationContract.downVote(projectId, { from: account }).then((data, err) => {
+    donationContract.downVote(projectId, { from: publicAddress }).then((data, err) => {
       if (err) {
         this.setState({ inActionProcess: false, donatingError: "There is an error occur. Please try again" })
         console.log(err)
@@ -105,8 +105,8 @@ class Projects extends React.Component {
 
   getMetaMaskAccountAddress = async () => {
     await window.ethereum.enable();
-    const account = await this.props.web3.eth.getCoinbase();
-    return account;
+    const publicAddress = await this.props.web3.eth.getCoinbase();
+    return publicAddress;
   }
 
   render() {
@@ -196,7 +196,8 @@ class Projects extends React.Component {
             ))}
           </div>
           <Charity />
-          <Admin donationContract={this.props.donationContract} account={this.props.account} />
+          <Register web3={this.props.web3}  publicAddress={this.props.publicAddress}/>
+          <Admin donationContract={this.props.donationContract} publicAddress={this.props.publicAddress} />
         </div>
       </div>
     );

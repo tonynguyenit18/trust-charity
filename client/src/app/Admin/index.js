@@ -44,7 +44,7 @@ class Admin extends React.Component {
       <div className='container-fluid'>
 
         <AmdminCheckModal
-          account={this.props.account}
+          publicAddress={this.props.publicAddress}
           donationContract={this.props.donationContract}
           modalShow={this.state.modalShow}
           handleModalClose={this.handleModalClose}
