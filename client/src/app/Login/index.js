@@ -1,23 +1,18 @@
 import React from "react";
 import Header from "../Header";
-import { register } from "../utils/api";
+import { login } from "../utils/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { Redirect } from "react-router-dom"
-import "./register.css"
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
             email: "",
             password: "",
             role: "poster",
             validationMsg: {
-                firstName: "",
-                lastName: "",
                 email: "",
                 password: ""
             },
@@ -42,14 +37,13 @@ class Login extends React.Component {
         this.validateAll()
     }
 
-    register = () => {
+    login = () => {
         if (!this.state.isAllvalid) return;
         this.setState({ isProcessing: true })
-        const { firstName, lastName, email, password, role } = this.state;
-        const userName = firstName + " " + lastName;
-        const body = { userName, password, email, role };
+        const { email, password } = this.state;
+        const body = { password, email };
 
-        register(body).then(response => {
+        login(body).then(response => {
             if (response.data && response.data.user) {
                 if (response.data.user.token) {
                     localStorage.setItem("access_token", response.data.user.token)
@@ -97,7 +91,8 @@ class Login extends React.Component {
                 validationMsg.email = ""
             }
         }
-        this.setState({ validationMsg, isAllvalid }, this.register)
+        console.log(isAllvalid)
+        this.setState({ validationMsg, isAllvalid }, this.login)
     }
 
 
@@ -113,18 +108,6 @@ class Login extends React.Component {
                         <Header backgroundColor={true}></Header>
                         <div className="container d-flex justify-content-center">
                             <div className="register-form-wrap" style={{ width: "40%", marginTop: "150px", padding: "20px" }}>
-                                <div className="d-flex flex-row justify-content-between">
-                                    <div className="form-group">
-                                        <label htmlFor="firstName">First Name <strong className="text-danger">*</strong></label>
-                                        <input className="form-control" type="text" name="firstName" onChange={this.handleTextInputChange}></input>
-                                        {validationMsg.firstName ? <p className="text-danger my-1">{validationMsg.firstName}</p> : null}
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="lastName">Last Name <strong className="text-danger">*</strong></label>
-                                        <input className="form-control" type="text" name="lastName" onChange={this.handleTextInputChange}></input>
-                                        {validationMsg.lastName ? <p className="text-danger my-1">{validationMsg.lastName}</p> : null}
-                                    </div>
-                                </div>
                                 <div className="form-group">
                                     <label htmlFor="email">Email <strong className="text-danger">*</strong></label>
                                     <input className="form-control" type="text" name="email" onChange={this.handleTextInputChange}></input>
@@ -135,36 +118,9 @@ class Login extends React.Component {
                                     <input className="form-control" type="password" name="password" onChange={this.handleTextInputChange}></input>
                                     {validationMsg.password ? <p className="text-danger my-1">{validationMsg.password}</p> : null}
                                 </div>
-                                <div>
-                                    <label>Role</label>
-                                    <div className="d-flex flex-row">
-                                        <div className="form-check mx-2">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio" name="poster"
-                                                checked={this.state.role == "poster"}
-                                                onChange={this.handleRadioButtonChange}></input>
-                                            <label className="form-check-label" htmlFor="poster">Poster</label>
-                                        </div>
-                                        <div className="form-check mx-2">
-                                            <input className="form-check-input"
-                                                type="radio" name="donator"
-                                                checked={this.state.role == "donator"}
-                                                onChange={this.handleRadioButtonChange}></input>
-                                            <label className="form-check-label" htmlFor="donator">Donator</label>
-                                        </div>
-                                        <div className="form-check mx-2">
-                                            <input className="form-check-input"
-                                                type="radio" name="wholesaler"
-                                                checked={this.state.role == "wholesaler"}
-                                                onChange={this.handleRadioButtonChange}></input>
-                                            <label className="form-check-label" htmlFor="wholesaler">Wholesaler</label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="d-flex justify-content-center mt-3">
                                     <button className="btn btn-primary" onClick={this.handleRegisterClick} style={{ minWidth: "100px" }} disabled={this.state.isProcessing}>
-                                        {this.state.isProcessing ? <FontAwesomeIcon icon={faSpinner} size="sm" style={{ color: "#ffffff" }} spin /> : "Register"}
+                                        {this.state.isProcessing ? <FontAwesomeIcon icon={faSpinner} size="sm" style={{ color: "#ffffff" }} spin /> : "Login"}
                                     </button>
                                 </div>
                                 <div className=" w-100 text-center">

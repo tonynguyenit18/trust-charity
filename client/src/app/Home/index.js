@@ -22,11 +22,18 @@ class Home extends Component {
       contracts: {
         donation: null
       },
-      projects: null
+      projects: null,
+      user: null
     };
   }
 
   componentDidMount = async () => {
+    const user = this.props.location && this.props.location.state ? this.props.location.state.user : null
+    console.log("user", this.props)
+    if (user) {
+      this.props.history.replace();
+      window.location.reload()
+    }
     try {
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
@@ -46,7 +53,7 @@ class Home extends Component {
         {
           web3,
           account,
-          contracts: { ...this.state.contracts, donation: instance }
+          contracts: { ...this.state.contracts, donation: instance },
         },
         this.setupAccount
       );
@@ -93,7 +100,6 @@ class Home extends Component {
   render() {
     // admin user is true for the debugging purposes
     const adminUser = false;
-
 
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;

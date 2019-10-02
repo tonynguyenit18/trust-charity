@@ -2,6 +2,7 @@ const express = require("express") // import express module
 const cors = require("cors") // import body-parser module
 const users = require("./routes/users");
 const posts = require("./routes/posts");
+const auth = require("./routes/auth");
 
 const server = express()
 
@@ -16,14 +17,7 @@ server.use(express.json())
 // router
 server.use("/posts", posts);
 server.use("/user", users)
-
-server.use((error, req, res, next) => {
-  res.json({
-    error: {
-      message: error.message
-    }
-  })
-})
+server.use("/auth", auth)
 
 // create server with port variable
 server.listen(port, error => {
