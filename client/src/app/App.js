@@ -39,7 +39,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.user)
     return (
       <AppContext.Provider value={{ user: this.state.user, clearUser: this.handleClearUserInfo }}>
         <BrowserRouter>
