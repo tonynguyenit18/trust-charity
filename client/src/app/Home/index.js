@@ -30,7 +30,6 @@ class Home extends Component {
 
   componentDidMount = async () => {
     const user = this.props.location && this.props.location.state ? this.props.location.state.user : null
-    console.log("user", this.props)
     if (user) {
       this.props.history.replace();
       window.location.reload()

@@ -63,7 +63,6 @@ class Login extends React.Component {
         let accountAddress = this.state.accountAddress
         if (!accountAddress && (role == "donator" || role == "wholesaler")) {
             accountAddress = await this.getMetaMaskAccountAddress();
-            console.log(accountAddress)
             if (accountAddress) {
                 this.setState({ accountAddress, responseError: "" })
             } else {
