@@ -5,19 +5,19 @@ class Patron extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid" style={{ backgroundColor: '#ffad33', paddingBottom: '15px' }}>
+      <div id='patron-section' className="container-fluid" style={{ backgroundColor: '#ffad33', paddingBottom: '15px' }}>
 
         {/* title section */}
         <div className="row justify-content-center">
           <div className="col-6 mt-5 text-center">
-            <h2 className='text-light'>Please donate for our app</h2>
+            <h2 className='text-light'>Please donate for Trust Charity</h2>
           </div>
         </div>
 
         {/* sub titile section */}
         <div className="row justify-content-center">
           <div className="col-6 mt-2 text-center">
-            <i className='text-light'>We can not develop and run Trust charity without your help. Please share your kindness to help pople around the world.</i>
+            <i className='text-light'>We can not develop and run Trust Charity without your help. Please share your kindness to help people around the world.</i>
           </div>
         </div>
         {/* Form section */}

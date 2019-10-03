@@ -50,13 +50,16 @@ class Header extends React.Component {
   };
 
   moveToSection = section => event => {
-    const projectSection = document.querySelector(`.${section}`);
+    const projectSection = document.querySelector(`.page-content`);
     const header = document.querySelector(`.header-content`);
     if (!projectSection || !header) return;
     const projectSectionY = projectSection.offsetTop;
     const headerHeight = header.offsetHeight;
+    let sectionOffset = 0
+    if (section === 'patron') sectionOffset = document.querySelector(`#patron-section`).offsetTop
+
     window.scrollTo({
-      top: projectSectionY - headerHeight,
+      top: projectSectionY - headerHeight + sectionOffset,
       behavior: "smooth"
     });
   };
@@ -99,11 +102,14 @@ class Header extends React.Component {
                     </React.Fragment>}
                   <button
                     className="btn-in-navbar"
-                    onClick={this.moveToSection("page-content")}
+                    onClick={this.moveToSection('projects')}
                   >
                     Projects
               </button>
-                  <button className="btn-in-navbar">Petrons</button>
+                  <button
+                    className="btn-in-navbar"
+                    onClick={this.moveToSection("patron")}
+                  >Petrons</button>
                 </div>
               </nav>
               {context && context.user && context.user.role && context.user.userName ?

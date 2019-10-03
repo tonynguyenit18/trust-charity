@@ -129,7 +129,7 @@ class Projects extends React.Component {
               />
             </div>
             <div
-              className="page-content"
+              className="page-content pb-5"
               style={{
                 backgroundColor: "#ffffff",
                 position: "relative"
@@ -199,7 +199,10 @@ class Projects extends React.Component {
                   </React.Fragment>
                 ))}
               </div>
-              <Patron />
+              <Patron
+                sendTransactionFunc={this.props.web3.eth.sendTransaction}
+                account={this.props.account}
+              />
               {context.user && (context.user.role === 'poster' || context.user.role === 'admin') && <Charity />}
               {context.user && context.user.role === 'admin' && <Admin donationContract={this.props.donationContract} account={this.props.account} />}
             </div>
