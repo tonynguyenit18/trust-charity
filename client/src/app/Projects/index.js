@@ -200,8 +200,9 @@ class Projects extends React.Component {
                 ))}
               </div>
               <Patron
-                sendTransactionFunc={this.props.web3.eth.sendTransaction}
+                web3={this.props.web3}
                 account={this.props.account}
+                getMetaMaskAccountAddress={this.getMetaMaskAccountAddress}
               />
               {context.user && (context.user.role === 'poster' || context.user.role === 'admin') && <Charity />}
               {context.user && context.user.role === 'admin' && <Admin donationContract={this.props.donationContract} account={this.props.account} />}
