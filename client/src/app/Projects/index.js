@@ -7,6 +7,7 @@ import { Modal, Button } from "react-bootstrap";
 import { AppContext } from "../App"
 
 import Charity from "../Charity";
+import Patron from "../Patron";
 import Admin from "../Admin";
 class Projects extends React.Component {
   constructor(props) {
@@ -198,6 +199,7 @@ class Projects extends React.Component {
                   </React.Fragment>
                 ))}
               </div>
+              <Patron />
               {context.user && (context.user.role === 'poster' || context.user.role === 'admin') && <Charity />}
               {context.user && context.user.role === 'admin' && <Admin donationContract={this.props.donationContract} account={this.props.account} />}
             </div>
