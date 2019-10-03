@@ -90,9 +90,18 @@ class Patron extends React.Component {
 
         <div className='row justify-content-center mt-4'>
           <div className='col-4 text-right'>
-            <input type="button" className="btn btn-primary" id="patron_submit" value="Donate" onClick={() => {
-              this.donateForTrustCharity()
-            }} />
+            <input
+              type="button"
+              className="btn btn-primary"
+              id="patron_submit"
+              value="Donate"
+              disabled={
+                this.state.amount === '' ||
+                parseInt(this.state.amount) <= 0
+              }
+              onClick={() => {
+                this.donateForTrustCharity()
+              }} />
           </div>
         </div>
       </div>
