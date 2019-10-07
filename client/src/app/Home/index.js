@@ -6,6 +6,7 @@ import { AppContext } from "../App"
 
 import Header from "../Header";
 import Projects from "../Projects";
+import axios from 'axios'
 
 
 import "../../css/app.css";
@@ -41,10 +42,22 @@ class Home extends Component {
       // Use web3 to get the user's accounts.
       const account = await web3.eth.getCoinbase();
       const Contract = truffleContract(DonationContract, account);
-
       Contract.setProvider(web3.currentProvider);
 
       const instance = await Contract.deployed();
+      // subscribe event
+      instance.archivedEvent({}, (err, data) => {
+        // get archived post id
+        const postId = data.returnValues[0]
+
+        // change the post status to 4 (project closure)
+        axios.put(`http://localhost:8000/posts/${postId}`, { status: 4 }).then((res) => {
+          // success process
+        }).catch((e) => {
+          console.log(e)
+        })
+
+      })
 
       window.ethereum.on('accountsChanged', this.handleMetaMaskAccountChanged)
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -71,15 +84,23 @@ class Home extends Component {
     const { contracts } = this.state;
     let postIdsArray = await contracts.donation.getPostIds();
 
-    const projects = [];
+    // get post data form database (ideally only posts with status 1)
+    const fetchedPostData = await axios.get("http://localhost:8000/posts")
+    const fetchedPosts = fetchedPostData.data
 
+    const projects = [];
     for (var i = 0; i < postIdsArray.length; i++) {
+      let completeObj = null
       const post = await contracts.donation.posts(postIdsArray[i].toNumber());
       const project = this.getProjectInfo(post);
-      projects.push(project);
+      // find correspoding post by id
+      const correspondingPostDatabase = fetchedPosts.find((p) => p._id === postIdsArray[i].toNumber())
+      // conbine those two post(blockchain one and external database one)
+      completeObj = Object.assign(project, correspondingPostDatabase)
+      projects.push(completeObj)
     }
-
     console.log(projects)
+
     this.setState({ projects });
   };
 
@@ -89,7 +110,8 @@ class Home extends Component {
     const downVote = post.downVote.toNumber();
     const donationTotalAmount = this.state.web3.utils.fromWei(post.donationTotalAmount, "ether");
     const goalAmount = this.state.web3.utils.fromWei(post.goalAmount, "ether");
-    return { projectId, upVote, downVote, donationTotalAmount, goalAmount };
+    const destinationAddress = post.destinationAddress
+    return { projectId, upVote, downVote, donationTotalAmount, goalAmount, destinationAddress };
   };
 
   handleMetaMaskAccountChanged = accounts => {
@@ -111,7 +133,7 @@ class Home extends Component {
         {context => (
           <div className="app container-fluid">
             <Header></Header>
-            {this.state.projects && this.state.projects.length > 0 ? (
+            {this.state.projects ? (
               <Projects
                 projects={this.state.projects}
                 donationContract={this.state.contracts ? this.state.contracts.donation : null}

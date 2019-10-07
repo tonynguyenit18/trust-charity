@@ -7,6 +7,19 @@ const authMiddleware = require("../middlewares/authMiddleware")
 
 const router = new express.Router();
 
+// get users by role
+router.get("/", (req, res) => {
+  const useRole = req.query.role
+  User.find()
+    .where('role').equals(useRole)
+    .then(posts => {
+      res.json(posts);
+    })
+    .catch(error => {
+      res.json({ error });
+    });
+});
+
 router.post("/", async (req, res) => {
   let { userName, email, password, role, address } = req.body;
   email = email.toLowerCase();

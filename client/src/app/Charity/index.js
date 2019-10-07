@@ -43,7 +43,7 @@ class Charity extends React.Component {
     let fileType = fileParts[1];
 
     // post file name and file type to get a signed signeture url
-    axios.post("http://localhost:8000/sign_s3", {
+    axios.post("http://localhost:8000/posts/sign_s3", {
       fileType: fileType
     })
       .then(response => {
