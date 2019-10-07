@@ -13,7 +13,10 @@ class Project extends React.Component {
   }
 
   handleProjectClick = (action) => () => {
-    this.props.handleProjectClick(this.props.project, action);
+    // if the porject is closed, no click event will be attached
+    if (this.props.project.status !== 4) {
+      this.props.handleProjectClick(this.props.project, action);
+    }
   };
 
   render() {
@@ -28,6 +31,7 @@ class Project extends React.Component {
               <h5>
                 {project.title}
               </h5>
+              {project.status === 4 && <i className='text-danger'>Archived!!</i>}
             </div>
             <img style={{ width: "100%", cursor: "pointer" }} src={project.imageUrl || headerImage} onClick={this.handleProjectClick("")}></img>
             <div className="row mt-2">

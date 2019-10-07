@@ -27,9 +27,14 @@ contract Donation {
     uint public postCount;
 
     // constructor
-    constructor() public{
-        addPost(98, 5);
-        addPost(99, 5);
+    // constructor() public{
+    //     addPost(98, 5,msg.sender);
+    //     addPost(99, 5,msg.sender);
+    // }
+
+    // funciton returns constact's balance
+    function getBalance() public view returns(uint256){
+     return address(this).balance;
     }
 
     // funciton returns how much more to reach the goal
@@ -43,7 +48,7 @@ contract Donation {
     }
 
     // function to add a new post with id parameter
-    function addPost (uint _id, uint _goal) public {
+    function addPost (uint _id, uint _goal, address _salerAddress) public {
         require(_id > 0, "Invalid post");
         // increment post count
         postCount ++;
@@ -52,8 +57,7 @@ contract Donation {
         // convert Ether to Wei
         uint256  weiGoal = _goal * 1000000000000000000;
 
-        // set default values (5 ether is set as a goal amount and destination is current user (they are only for dubug))
-        posts[_id] = Post(_id, 0, 0, weiGoal, 0, msg.sender);
+        posts[_id] = Post(_id, 0, 0, weiGoal, 0, _salerAddress);
     }
 
     function donate (uint _postId) public payable{
@@ -84,12 +88,20 @@ contract Donation {
         // add amount to individual donation amount
         posts[_postId].donations[msg.sender] += msg.value;
 
-        // when donation amount reaches the goal, send money out
+        // when donation amount reaches the goal, send money out and close the project
         if(posts[_postId].donationTotalAmount >= posts[_postId].goalAmount){
-           transferDonationToDestination(posts[_postId].destinationAddress);
-        }
+            address destination = posts[_postId].destinationAddress;
+            // convert an address tye to address payable type
+            address payable payableDestinationAddress = address(uint160(destination));
+           payableDestinationAddress.transfer(posts[_postId].donationTotalAmount);
 
+           // emit the archive event
+           emit archivedEvent(_postId);
+        }
     }
+
+    // reaching goal event
+    event archivedEvent (uint indexed _postId);
 
     function downVote (uint _postId) public {
         require(_postId > 0, "Invalid Post");
@@ -113,7 +125,4 @@ contract Donation {
         posts[_postId].voters[msg.sender] = -1;
     }
 
-    function transferDonationToDestination(address _destination) private{
-        // set the money to destination
-    }
 }
