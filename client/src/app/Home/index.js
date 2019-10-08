@@ -108,8 +108,8 @@ class Home extends Component {
     const projectId = post.id.toNumber();
     const upVote = post.upVote.toNumber();
     const downVote = post.downVote.toNumber();
-    const donationTotalAmount = this.state.web3.utils.fromWei(post.donationTotalAmount, "ether");
-    const goalAmount = this.state.web3.utils.fromWei(post.goalAmount, "ether");
+    const donationTotalAmount = this.state.web3.utils.fromWei(post.donationTotalAmount.toString(), "ether");
+    const goalAmount = this.state.web3.utils.fromWei(post.goalAmount.toString(), "ether");
     const destinationAddress = post.destinationAddress
     return { projectId, upVote, downVote, donationTotalAmount, goalAmount, destinationAddress };
   };
