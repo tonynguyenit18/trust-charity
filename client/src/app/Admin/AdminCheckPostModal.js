@@ -12,7 +12,7 @@ class AdminCheckPostModal extends React.Component {
   }
 
   componentDidMount() {
-    const getSalerUrl = 'http://localhost:8000/user?role=wholesaler'
+    const getSalerUrl = `http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}/user?role=wholesaler`
     axios.get(getSalerUrl).then(data => {
       const wholesalers = data.data
       this.setState({ wholesalers })
@@ -25,7 +25,7 @@ class AdminCheckPostModal extends React.Component {
 
 
   rejectHandle = () => {
-    const postUpdateUrl = `http://localhost:8000/posts/${this.props.postObj._id}`
+    const postUpdateUrl = `http${process.env.APP_DOMAIN ? 's' : ''}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts/${this.props.postObj._id}`
     // set status 2(rejected) to the selected post
     axios.put(postUpdateUrl, { status: 2 }).then((res) => {
       this.props.removePostById(this.props.postObj._id)
@@ -51,7 +51,7 @@ class AdminCheckPostModal extends React.Component {
       if (err) {
         console.log(err)
       } else {
-        const postUpdateUrl = `http://localhost:8000/posts/${this.props.postObj._id}`
+        const postUpdateUrl = `http${process.env.APP_DOMAIN ? 's' : ''}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts/${this.props.postObj._id}`
         // get new posts(status:0) and set them to state
         axios.put(postUpdateUrl, { status: 1 }).then((res) => {
           this.props.removePostById(this.props.postObj._id)
