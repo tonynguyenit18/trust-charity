@@ -1,0 +1,12 @@
+{
+  "build": {
+    "env": {
+      "MONGO_USER_NAME": "@mongo_user_name",
+      "MONGO_PASSWORD": "@mongo_password",
+      "AWS_ACCESS_KEY": "@aws_access_key",
+      "AWS_SECRET_KEY": "@aws_secret_key",
+      "BUCKET": "@bucket",
+      "JWT_SECRET_KEY": "@jwt_secret_key"
+    }
+  }
+}
