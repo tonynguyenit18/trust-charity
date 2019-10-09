@@ -43,7 +43,7 @@ class Charity extends React.Component {
     let fileType = fileParts[1];
 
     // post file name and file type to get a signed signeture url
-    axios.post(`http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts/sign_s3`, {
+    axios.post(`http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts/sign_s3`, {
       fileType: fileType
     })
       .then(response => {
@@ -63,7 +63,7 @@ class Charity extends React.Component {
             this.setState({ success: true });
 
             // create a new post with image
-            const postUrl = `http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts`
+            const postUrl = `http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts`
 
             axios.post(postUrl, {
               title: this.state.post_title,

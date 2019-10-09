@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosIns = axios.create({
-    baseURL: `http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}`,
+    baseURL: `http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}`,
     timeout: 1000
 })
 

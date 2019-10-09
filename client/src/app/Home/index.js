@@ -50,7 +50,7 @@ class Home extends Component {
         // get archived post id
         const postId = data.returnValues[0]
         // change the post status to 4 (project closure)
-        axios.put(`http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts/${postId}`, { status: 4 }).then((res) => {
+        axios.put(`http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts/${postId}`, { status: 4 }).then((res) => {
           // success process
         }).catch((e) => {
           console.log(e)
@@ -84,7 +84,7 @@ class Home extends Component {
     let postIdsArray = await contracts.donation.getPostIds();
 
     // get post data form database (ideally only posts with status 1)
-    const fetchedPostData = await axios.get(`http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts`)
+    const fetchedPostData = await axios.get(`http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts`)
     const fetchedPosts = fetchedPostData.data
 
     const projects = [];

@@ -29,7 +29,7 @@ class Admin extends React.Component {
   }
 
   componentDidMount = () => {
-    const newPostGetUrl = `http${process.env.APP_DOMAIN ? 's' : ""}://${process.env.APP_DOMAIN || 'localhost:8000'}/posts/new`
+    const newPostGetUrl = `http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts/new`
     // get new posts(status:0) and set them to state
     axios.get(newPostGetUrl).then((res) => {
       this.setState({ charityPosts: res.data })
