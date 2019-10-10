@@ -5,7 +5,6 @@ require('dotenv').config()
 mongoose.Promise = global.Promise
 
 // set mongo
-console.log("############Mongo user name: ", process.env.MONGO_USER_NAME)
 const uri = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_PASSWORD}@trustcharity-f0uck.mongodb.net/TrustCharityDB?retryWrites=true&w=majority`;
 
 mongoose
