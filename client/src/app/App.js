@@ -16,6 +16,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // call the function to get users
     this.getCurrentUser();
   }
 
