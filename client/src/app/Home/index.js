@@ -49,9 +49,8 @@ class Home extends Component {
       instance.archivedEvent({}, (err, data) => {
         // get archived post id
         const postId = data.returnValues[0]
-
         // change the post status to 4 (project closure)
-        axios.put(`http://localhost:8000/posts/${postId}`, { status: 4 }).then((res) => {
+        axios.put(`http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts/${postId}`, { status: 4 }).then((res) => {
           // success process
         }).catch((e) => {
           console.log(e)
@@ -85,7 +84,7 @@ class Home extends Component {
     let postIdsArray = await contracts.donation.getPostIds();
 
     // get post data form database (ideally only posts with status 1)
-    const fetchedPostData = await axios.get("http://localhost:8000/posts")
+    const fetchedPostData = await axios.get(`http${process.env.REACT_APP_APP_DOMAIN ? 's' : ""}://${process.env.REACT_APP_APP_DOMAIN || 'localhost:8000'}/posts`)
     const fetchedPosts = fetchedPostData.data
 
     const projects = [];
@@ -108,8 +107,8 @@ class Home extends Component {
     const projectId = post.id.toNumber();
     const upVote = post.upVote.toNumber();
     const downVote = post.downVote.toNumber();
-    const donationTotalAmount = this.state.web3.utils.fromWei(post.donationTotalAmount, "ether");
-    const goalAmount = this.state.web3.utils.fromWei(post.goalAmount, "ether");
+    const donationTotalAmount = this.state.web3.utils.fromWei(post.donationTotalAmount.toString(), "ether");
+    const goalAmount = this.state.web3.utils.fromWei(post.goalAmount.toString(), "ether");
     const destinationAddress = post.destinationAddress
     return { projectId, upVote, downVote, donationTotalAmount, goalAmount, destinationAddress };
   };
