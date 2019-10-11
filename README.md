@@ -12,6 +12,6 @@
 5. Login to MetaMask
 
 6. Change the network from the top right dropdown to **Ropsten Test Network**  
-<img src="https://github.com/tonynguyenit18/trust-charity/blob/readme/resources/network_select.png" alt="networkSelect" width="260">
+<img src="https://github.com/tonynguyenit18/trust-charity/blob/master/resources/network_select.png" alt="networkSelect" width="260">
 7. Visit [Test Ether Faucet](https://faucet.metamask.io/) and request ether in order to make a transaction.  
-<img src="https://github.com/tonynguyenit18/trust-charity/blob/readme/resources/get_test_ether.png" alt="testEther" width="400">
+<img src="https://github.com/tonynguyenit18/trust-charity/blob/master/resources/get_test_ether.png" alt="testEther" width="400">
