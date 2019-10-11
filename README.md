@@ -14,4 +14,4 @@
 6. Change the network from the top right dropdown to **Ropsten Test Network**  
 <img src="https://github.com/tonynguyenit18/trust-charity/blob/readme/resources/network_select.png" alt="networkSelect" width="260">
 7. Visit [Test Ether Faucet](https://faucet.metamask.io/) to get a test Eather in order to make a transaction.  
-<img src="https://github.com/tonynguyenit18/trust-charity/blob/readme/resources/get_test_ether.png" alt="testEther" width="260">
+<img src="https://github.com/tonynguyenit18/trust-charity/blob/readme/resources/get_test_ether.png" alt="testEther" width="360">
